@@ -1,0 +1,9 @@
+microservice_linebot/config.ini
+microservice_linebot/__pycache__
+microservice_linebot/.vscode
+microservice_linebot-crawl/mysql.ini
+microservice_linebot-crawl/__pycache__
+microservice_linebot-crawl/test.py
+microservice_linebot-crawl/test_1.py
+microservice_ticket/__pycache__
+microservice_ticket/.ipynb_checkpoints

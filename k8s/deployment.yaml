@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: crawl-deploy
+    namespace: example
+spec:
+    replicas: 2
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 1
+    template:
+        metadata:
+            labels:
+                app: crawl
+        spec:
+            containers:
+                - name: crawl
+                  image: 110356021/moviechat-crawl
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 5001
+                  resources:
+                      requests:
+                          memory: "64Mi"
+                          cpu: "60m"
+                      limits:
+                          memory: "128Mi"
+                          cpu: "70m"
+    selector:
+        matchLabels:
+            app: crawl
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: linebot-deploy
+    namespace: example
+spec:
+    replicas: 2
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 1
+    template:
+        metadata:
+            labels:
+                app: linebot
+        spec:
+            containers:
+                - name: linebot
+                  image: 110356021/moviechat-linebot
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 5002
+                  resources:
+                      requests:
+                          memory: "64Mi"
+                          cpu: "60m"
+                      limits:
+                          memory: "128Mi"
+                          cpu: "70m"
+                  env:
+                      - name: line_access_token
+                        value: AGOEgZmXlWZYvbxMw0OR4NLIvjaNm8ON65R+FNvaWDI4ci4vygcsLthc78C+ZbSwehSx0ABJ6fF1NUvAuWfevVDV33QY0JelBx0QEGn3n+B+03fksJrl1tiImpnCV6nrXE/xZsqQ6JaNXQ4GTWVPpAdB04t89/1O/w1cDnyilFU=
+                      - name: line_secret
+                        value: d9565be8a2890aeb158bf91a8149775e
+    selector:
+        matchLabels:
+            app: linebot
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ticket-deploy
+    namespace: example
+spec:
+    replicas: 2
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 1
+    template:
+        metadata:
+            labels:
+                app: ticket
+        spec:
+            containers:
+                - name: ticket
+                  image: 110356021/moviechat-ticket #
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 5002
+                  resources:
+                      requests:
+                          memory: "64Mi"
+                          cpu: "60m"
+                      limits:
+                          memory: "128Mi"
+                          cpu: "70m"
+    selector:
+        matchLabels:
+            app: ticket

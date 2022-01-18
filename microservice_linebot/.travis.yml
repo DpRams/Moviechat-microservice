@@ -1,0 +1,24 @@
+services:
+  - docker
+env:
+  global:
+    # should change to yours
+    - secure: "qMtHReU0Vtzzkpx6CJioejT2bAgNGwEoVBx4pG0ynbtFLcKYrc6Bv/ITwM2oqQGp76uLF6uZEcEUYJVfZfQAlGmigIh5HRJZKTmjGRRU3kGPIMOam/UymZP3QQ8eHtxhM8dCn81DZP8nnD/OJyBkbI04XwZndr/QyGKLwZQ3/OGjsvl/+vIyoCLyonTUjLzE+HSejfGA9r4RbxOrDSY+pJr5fWfdKkK8Sklvr7Z4sR0winyKS1uriSbTBoDkZ85OWvF/3b7pXjH6Ry/9yHOYGxRwSU8S1vSQUoMkd02Eh6myskcDsvu+dPji8w1LRCtXFuTxH5gY63PfR8TaWo74AahZIpwI+Dc5XL1C8gOU8xiVMV91i/mZLPVlni1e/vSh8jDCDfe2ZHB4lh6mX2ylkZzrAozV3DFQvBYYYCE+8Iqrc2fh3Z2xz06bg18oyZr8aMPZPc1ADHiw464kLWtAJkFndOrRmKgtPKCPfLQsiDyjHdvjcIKkzcHNFgaoCCbmGxowUL6EzxdF0hAWtkQNw8xYbeeMkM6MrQeEEa85OTSfpBjXPYqyHRt3PEr4zu8GyQ6bZXDCcT7+vAJ/6+WmuAXzvUr2ECcWrZmmHCZ+FWwNaybtfNh03LoTTa/U2186G6aADRgtTMrFwUVNVZGh+P/QvM2ys/jfUOpi+r4V5os="
+before_install:
+  - echo "Login into heroku"
+  - heroku container:login
+jobs:
+  include:
+    - stage: push
+      script:
+        # should change to yours
+        - docker build -t linebot:latest -f ./main.Dockerfile .
+        # should change to yours
+        - docker tag linebot:latest registry.heroku.com/microservice-linebot/web
+        - docker push registry.heroku.com/microservice-linebot/web
+      deploy:
+        - provider: script
+          # should change to yours
+          script: heroku container:release web --app microservice-linebot
+          on: # 不設這個 預設只有在 master branch 會做 deploy
+            branch: main

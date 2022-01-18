@@ -1,0 +1,2 @@
+mysql://bf646f056d67ac:c62737b8@us-cdbr-east-05.cleardb.net/heroku_4fd3e816ee7d4a3?reconnect=true
+#mysql://{username}:{password}@{host}/{db}?reconnect=True
